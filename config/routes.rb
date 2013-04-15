@@ -1,5 +1,7 @@
 WishlistBookmarklet::Application.routes.draw do
 
+  get '/:user_id' => 'wishlist#show', as: :wishlist
+
   devise_for :users
 
   root to: 'wishlist#show'
