@@ -11,4 +11,10 @@ class User < ActiveRecord::Base
 
   has_one :wishlist
   has_many :products, through: :wishlist 
+
+  after_create :create_wishlist
+
+  def create_wishlist
+    Wishlist.create(user_id: self.id)
+  end
 end
