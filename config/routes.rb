@@ -1,10 +1,17 @@
 WishlistBookmarklet::Application.routes.draw do
 
+  get "js/bookmarklet(.:format)" => "js#bookmarklet", :as => :bookmarklet
+
+  get "/add_product" => 'wishlist#add_product', as: :add_product
+  # match '/add_product', :controller => 'wishlist', :action => 'add_product', :constraints => {:method => 'OPTIONS'}
+  
   get '/:user_id' => 'wishlist#show', as: :wishlist
 
   devise_for :users
 
   root to: 'wishlist#show'
+
+
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

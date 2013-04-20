@@ -1,0 +1,185 @@
+(function (){
+
+	// the minimum version of jQuery we want
+	var v = "1.3.2";
+
+	// check prior inclusion and version
+	if (window.jQuery === undefined || window.jQuery.fn.jquery < v) {
+		var done = false;
+		var script = document.createElement("script");
+		script.src = "http://ajax.googleapis.com/ajax/libs/jquery/" + v + "/jquery.min.js";
+		script.onload = script.onreadystatechange = function(){
+			if (!done && (!this.readyState || this.readyState == "loaded" || this.readyState == "complete")) {
+				done = true;
+				initMyBookmarklet();
+			}
+		};
+		document.getElementsByTagName("head")[0].appendChild(script);
+	} else {
+		initMyBookmarklet();
+	}
+	
+	function initMyBookmarklet() {
+		(window.myBookmarklet = function() {
+			
+				function get_amazon_product_info() 
+			 	{
+			 		var title_span = document.getElementById("btAsinTitle");
+			 		var title = title_span.innerText;
+
+			 		var image_tag = document.getElementById("main-image");
+			 		var image = image_tag.getAttribute("src");
+
+			 		var price_span = document.getElementById("actualPriceValue");
+			 		var price = price_span.innerText;
+			 		
+			 		var product_info = {
+			 			title: title,
+			 			image: image,
+			 			price: price
+			 			//link_url: document.URL
+			 		};
+			 		return product_info;
+		 		}
+
+			 	function get_etsy_product_info()
+			 	{
+			 		 	var title_span = document.getElementById("item-title");
+				 		var title = title_span.innerText;
+
+				 		var image_div = document.getElementById("fullimage_link1");
+				 		var image_tag = image_div.getElementsByTagName("img");
+				 		var image = image_tag[0].getAttribute("src");
+
+				 		var price_div = document.getElementsByClassName("item-price");
+				 		var price_span = price_div[0].getElementsByClassName("currency-value");
+				 		var price = price_span[0].innerText;
+				 		
+				 		var product_info = {
+				 			title: title,
+				 			image: image,
+				 			price: price
+				 			//link_url: document.URL
+				 		};
+				 		console.log(product_info)
+				 		return product_info;
+			 	}
+
+			 	function get_jcrew_product_info()
+			 	{
+			  		var title_span = document.getElementById("pdp-title");
+				 		var title = title_span.innerText;
+
+				 		var image_div = document.getElementsByClassName("prod_main_img");
+				 		var image_tag = image_div[0].getElementsByTagName("img");
+				 		var image = image_tag[0].getAttribute("src");
+
+				 		//lame implementation -- need to be able to determine which radio button is checked. Finish later!
+
+				 		var price_div = document.getElementsByClassName("pdp-shapes");
+				 		var price_span = price_div[0].getElementsByClassName("price");
+				 		var price = price_span[0].innerText;
+
+				 		var product_info = {
+				 			title: title,
+				 			image: image,
+				 			price: price
+				 			//link_url: document.URL
+				 		};
+				 		console.log(product_info)
+				 		return product_info;
+			 	}
+
+			 	function determine_params() 
+				{
+				 		switch (document.domain) {
+					 		case "www.amazon.com":
+					 			var amazon = get_amazon_product_info();
+					 			return amazon
+					 			break;
+					 		case "www.etsy.com":
+								var etsy = get_etsy_product_info();
+								return etsy
+								break;
+					 		case "www.jcrew.com":
+					 			var jcrew = get_jcrew_product_info();
+					 			return jcrew
+					 			break;
+					 		default:
+					 			alert("This is not a supported page!");
+				 		}
+				}	
+
+				function send_data(product_info)
+				{
+					var domain = 'http://max-miller.local:3000/add_product?'
+					var url = domain + "title=" + product_info.title + "&image=" + product_info.image + "&price=" + product_info.price // + "&link_url=" product_info.page_url
+					
+					var script = document.createElement('script'); 
+					script.setAttribute('language','javascript'); 
+					script.setAttribute('src', url); 
+					document.body.appendChild(script);
+				}
+
+			// 	function send_data(product_info)
+			// 	{
+			// 		var product_info = product_info
+			// 		var request =	$.ajax({
+			// 			type: "GET",
+			// 			url: "http://max-miller.local:3000/add_product?",
+			// 			crossDomain: true,
+			// 			dataType: "json",
+			// 			data: { title: product_info.title, image: product_info.image, price: product_info.price },
+		 //   			// xhrFields: {
+		 //   			// 	withCredentials: true
+		 //   			// },
+		 // //   			beforeSend:  function(xhr) 
+		 // //   			{
+		 // //            	xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))
+		 // //         },
+			// 			success: function(responseData, textStatus, jqXHR) 
+			// 	    {
+			// 	        console.log(responseData);
+			// 	    },
+			// 	    error: function (responseData, textStatus, errorThrown) 
+			// 	    {
+			// 	        console.warn(responseData, textStatus, errorThrown);
+			// 	        alert('CORS failed - ' + textStatus);
+			// 	    }
+			// 	  });
+			// 	}
+
+				var product_info = determine_params();
+				send_data(product_info);
+
+			//  	function send_data(product_info)
+			//  	{		 	
+			// 	 	var link_url = document.URL;
+			//  		var http = new XMLHttpRequest();
+			//  		var url = "http://max-miller.local:3000/add_product";
+			//  		var params = "title=" + product_info.title + "&image=" + product_info.image + "&price=" + product_info.price + "&link_url=" + link_url;
+			//  		http.open("GET", url , true);
+			 		
+			//  		//Send the proper header information along with the request
+			// 		http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+			// 		http.setRequestHeader("Content-length", params.length);
+			// 		http.setRequestHeader("Connection", "close");
+
+			//  		http.onreadystatechange = function() {
+			//  			if(http.readyState == 4 && http.status == 200) {
+			//  				alert(http.responseText);
+			//  			}
+			//  		}
+			//  		console.log(product_info, params)
+			// 		http.send(params);
+			//  	}
+
+			//  	var product_info = determine_params();
+			//  	send_data(product_info);
+			// }
+
+		})();
+	}
+
+})();
+
