@@ -1,16 +1,17 @@
-
-<% @products.each do |product| %>
+<%= div_for(@products) do |product| %>
 	<div class="product-container">
 		<a href="<%= product.url %>">
 			<div class="product-header">	
 				<h3><%= product.title %></h3>
 			</div>
-			<div class="product-image">
-				<img src="<%= product.image %>"/>
-			</div>
-			<div class="product-footer">
-				<p>Price: $<%= product.price %></p>
-			</div>
 		</a>
+		<div class="product-image">
+			<img src="<%= product.image %>"/>
+		</div>
+		<div class="product-footer">
+			<p>Price: $<%= product.price %></p>
+			<p>Time Saved: <%= time_ago_in_words(product.created_at) %> ago</p>
+			<%= button_to 'Delete', delete_product_path(product.id), method: :delete, remote: true %>
+		</div>
 	</div>	
 <% end %>
