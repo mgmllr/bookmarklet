@@ -15,13 +15,15 @@
 
 			 		var price_span = document.getElementById("actualPriceValue");
 			 		var price_with_dollar = price_span.innerText;
-			 		var price = strip_dollar(price_with_dollar)
+			 		var price = strip_dollar(price_with_dollar);
+
+			 		var link_url = document.URL;
 
 			 		var product_info = {
 			 			title: title,
 			 			image: image,
-			 			price: price
-			 			//link_url: document.URL
+			 			price: price,
+			 			link_url: link_url
 			 		};
 			 		
 			 		if (product_info)
@@ -48,12 +50,15 @@
 				 		var price_span = price_div[0].getElementsByClassName("currency-value");
 				 		var price = price_span[0].innerText;
 				 		
-				 		var product_info = {
-				 			title: title,
-				 			image: image,
-				 			price: price
-				 			//link_url: document.URL
-				 		};
+				 		var link_url = document.URL;
+
+						var product_info = {
+							title: title,
+							image: image,
+							price: price,
+							link_url: link_url
+						};
+
 				 		if (product_info)
 				 		{
 				 			console.log(product_info);
@@ -82,12 +87,14 @@
 					 	var price_with_dollar = price_span[0].innerText;
 					 	var price = strip_dollar(price_with_dollar);					
 
-				 		var product_info = {
-				 			title: title,
-				 			image: image,
-				 			price: price
-				 			//link_url: document.URL
-				 		};
+				 		var link_url = document.URL;
+
+						var product_info = {
+							title: title,
+							image: image,
+							price: price,
+							link_url: link_url
+						};
 				 		
 				 		if (product_info.title = title)
 				 		{
@@ -122,8 +129,8 @@
 
 				function send_data(product_info)
 				{
-					var domain = 'http://max-miller.local:3000/add_product?'
-					var url = domain + "title=" + product_info.title + "&image=" + product_info.image + "&price=" + product_info.price // + "&link_url=" product_info.page_url
+					var domain = 'http://max-miller.local:3000/add_product?';
+					var url = domain + "title=" + product_info.title + "&image=" + product_info.image + "&price=" + product_info.price + "&link_url=" + product_info.link_url;
 					
 					var script = document.createElement('script'); 
 					script.setAttribute('language','javascript'); 

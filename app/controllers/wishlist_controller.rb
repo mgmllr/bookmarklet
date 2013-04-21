@@ -19,9 +19,9 @@ class WishlistController < ApplicationController
         title = params[:title]
         image = params[:image]
         price = params[:price]
-        # link_url = params[:link_url]
+        link_url = params[:link_url]
 
-        @product = Product.create(wishlist_id: wishlist, title: title, image: image, price: price)#, url: link_url)
+        @product = Product.create(wishlist_id: wishlist, title: title, image: image, price: price, url: link_url)
         
         if @product.save          
           respond_to do |format|
