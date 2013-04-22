@@ -79,8 +79,7 @@
 				 		var image_tag = image_div[0].getElementsByTagName("img");
 				 		var image = image_tag[0].getAttribute("src");
 
-				 		//lame implementation -- need to be able to determine which radio button is checked. Finish later!
-
+				 		//should be able to determine which radio button is checked. To improve later.
 
 				 		var price_div = document.getElementsByClassName("pdp-shapes");
 					 	var price_span = price_div[0].getElementsByClassName("price");
@@ -129,7 +128,7 @@
 
 				function send_data(product_info)
 				{
-					var domain = 'http://sleepy-caverns-1778.herokuapp.com/add_product?';
+					var domain = 'http://wishlistrapp.herokuapp.com/add_product?';
 					var url = domain + "title=" + product_info.title + "&image=" + product_info.image + "&price=" + product_info.price + "&link_url=" + product_info.link_url;
 					
 					var script = document.createElement('script'); 
