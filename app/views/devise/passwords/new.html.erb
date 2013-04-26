@@ -1,0 +1,27 @@
+<div class='devise-container'>
+	<div class="devise-form">
+		<fieldset>
+			<legend>Forgot your password?</legend>
+
+			<%= form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :post, :class => 'form-horizontal' }) do |f| %>
+			  <%= devise_error_messages! %>
+			 
+			 	<div class='control-group'>
+					<%= f.label :email, :class => 'control-label' %>
+					<div class='controls'>
+						<%= f.email_field :email, :autofocus => true %>
+					</div>
+				</div>
+
+				<div class='control-group'>
+					<div class='controls'>
+			  		<div><%= f.submit "Send me reset password instructions", :class => 'devise-btn' %></div>
+			  	</div>
+			  </div>
+			<% end %>
+
+			<%= render "devise/shared/links" %>
+
+		</fieldset>
+	</div>
+</div>
